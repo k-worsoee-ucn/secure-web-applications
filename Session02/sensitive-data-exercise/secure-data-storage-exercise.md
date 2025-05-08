@@ -7,7 +7,7 @@ This exercise aims to provide hands-on experience in applying encryption and dat
 
 **Overview**: Students will create a secure authentication system that hashes passwords before storing them in a database. 
 
-In this repository on GitHub:  [UCN-PWU-Secure-Web-Applications/sensitive-data-exercise](https://github.com/UCN-PWU-Secure-Web-Applications/sensitive-data-exercise) you will find inspiration for a simple scaffold for your application, that defines endpoints for login, viewing, and editing user data. 
+In this repository on GitHub:  [UCN-LANY-PWU/Secure-Web-Applications](https://github.com/UCN-LANY-PWU/secure-web-applications) you will find inspiration in the Session 2 folder for a simple scaffold for your application, that defines endpoints for login, viewing, and editing user data. 
 
 **Note:** The code in the repository does not use a database, but stores data in memory. This will suffice for this exercise, but you may of course try and implement database access if you have the time.
 
