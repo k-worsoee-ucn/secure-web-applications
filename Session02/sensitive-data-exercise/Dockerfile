@@ -1,28 +1,17 @@
-# Build stage
-FROM node:18-alpine AS builder
+# Use Node.js 18 Alpine as the base image
+FROM node:18-alpine
 
+# Create app directory
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm install
 
 # Copy source code
 COPY . .
-
-# Production stage
-FROM node:18-alpine
-
-WORKDIR /app
-
-# Copy package files and install production dependencies only
-COPY package*.json ./
-RUN npm ci --only=production
-
-# Copy built application from builder stage
-COPY --from=builder /app/src ./src
 
 # Create a non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
