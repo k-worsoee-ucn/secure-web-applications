@@ -3,30 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'">
     <title>CSP Demo</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .demo-section {
-            margin: 20px 0;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <h1>Content Security Policy (CSP) Demonstration</h1>
@@ -38,6 +17,7 @@
         <a href="/csp-demo-inline" class="button">Inline Script Demo</a>
         <a href="/csp-demo-external" class="button">External Script Demo</a>
         <a href="/csp-demo-strict" class="button">Strict CSP Demo</a>
+        <a href="/csp-demo-form" class="button">Form Submission Demo</a>
     </div>
 
     <div class="demo-section">
@@ -51,6 +31,7 @@
             <li><strong>style-src</strong>: Controls which styles can be applied</li>
             <li><strong>img-src</strong>: Controls which images can be loaded</li>
             <li><strong>connect-src</strong>: Controls which URLs can be loaded using script interfaces</li>
+            <li><strong>form-action</strong>: Controls which URLs can be used as the action of HTML form elements</li>
         </ul>
     </div>
 </body>

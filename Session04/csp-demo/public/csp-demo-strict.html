@@ -4,54 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSP Demo - Strict Policy</title>
-    <meta http-equiv="Content-Security-Policy" 
-          content="default-src 'self'; 
-                   script-src 'self' https://cdn.jsdelivr.net;
-                   style-src 'self' 'unsafe-inline';
-                   img-src 'self' https://*.example.com;
-                   font-src 'self';
-                   connect-src 'self';
-                   frame-ancestors 'none';
-                   form-action 'self';
-                   base-uri 'self';
-                   object-src 'none'">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .demo-section {
-            margin: 20px 0;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 5px;
-        }
-        .success {
-            color: green;
-            font-weight: bold;
-        }
-        .error {
-            color: red;
-            font-weight: bold;
-        }
-        pre {
-            background-color: #f5f5f5;
-            padding: 10px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <h1>CSP Demo - Strict Policy</h1>
@@ -62,7 +15,7 @@
         
         <ul>
             <li>Only allows scripts from same origin and cdn.jsdelivr.net</li>
-            <li>Allows inline styles (needed for this demo)</li>
+            <li>Only allows styles from external CSS files</li>
             <li>Restricts images to same origin and example.com</li>
             <li>Blocks all object/embed/applet content</li>
             <li>Prevents site from being framed by other sites</li>
@@ -75,7 +28,7 @@
         <pre>Content-Security-Policy: 
     default-src 'self';
     script-src 'self' https://cdn.jsdelivr.net;
-    style-src 'self' 'unsafe-inline';
+    style-src 'self';
     img-src 'self' https://*.example.com;
     font-src 'self';
     connect-src 'self';
@@ -83,6 +36,7 @@
     form-action 'self';
     base-uri 'self';
     object-src 'none'</pre>
+        <p>Note: This policy is set via HTTP headers, not meta tags, to ensure all directives (including frame-ancestors) work properly.</p>
     </div>
 
     <div class="demo-section">
@@ -94,7 +48,7 @@
         <h3>2. Image Loading</h3>
         <div>
             <p>This image should load (same origin):</p>
-            <img src="/test-image.jpg" alt="Test Image" style="max-width: 200px;">
+            <img src="/test-image.jpg" alt="Test Image" class="test-image">
         </div>
         
         <h3>3. Form Submission</h3>
@@ -105,17 +59,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script>
-        window.onload = function() {
-            if (window.jQuery) {
-                document.getElementById('script-status').textContent = 'jQuery Status: Loaded successfully!';
-                document.getElementById('script-status').className = 'success';
-            } else {
-                document.getElementById('script-status').textContent = 'jQuery Status: Failed to load';
-                document.getElementById('script-status').className = 'error';
-            }
-        };
-    </script>
+    <script src="/script-status-strict.js"></script>
 
     <a href="/csp-demo" class="button">Back to Main Demo</a>
 </body>

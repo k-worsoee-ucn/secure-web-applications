@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSP Demo - Form Submission</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>CSP Demo - Form Submission</h1>
+    
+    <div class="demo-section">
+        <h2>Form Submission Demonstration</h2>
+        <p>This page demonstrates how CSP's form-action directive prevents form submissions to unauthorized domains.</p>
+        
+        <h3>1. Allowed Form Submission (Same Origin)</h3>
+        <form action="/submit" method="POST">
+            <input type="text" name="test" placeholder="Test input (will work)">
+            <button type="submit" class="button">Submit to Same Origin</button>
+        </form>
+
+        <h3>2. Blocked Form Submission (External Domain)</h3>
+        <form action="https://example.com/submit" method="POST">
+            <input type="text" name="test" placeholder="Test input (will be blocked)">
+            <button type="submit" class="button">Submit to External Domain</button>
+        </form>
+
+        <p class="error">Expected Result: The first form will submit successfully, but the second form will be blocked by CSP's form-action directive.</p>
+    </div>
+
+    <div class="demo-section">
+        <h2>Current CSP Policy</h2>
+        <pre>Content-Security-Policy: 
+    default-src 'self';
+    script-src 'self' https://cdn.jsdelivr.net;
+    style-src 'self';
+    img-src 'self' https://*.example.com;
+    font-src 'self';
+    connect-src 'self';
+    frame-ancestors 'none';
+    form-action 'self';
+    base-uri 'self';
+    object-src 'none'</pre>
+        <p>The <code>form-action 'self'</code> directive restricts form submissions to the same origin only.</p>
+    </div>
+
+    <a href="/csp-demo" class="button">Back to Main Demo</a>
+</body>
+</html> 

@@ -3,39 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'">
     <title>CSP Demo - External Scripts</title>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .demo-section {
-            margin: 20px 0;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 5px;
-        }
-        .success {
-            color: green;
-            font-weight: bold;
-        }
-        .error {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <h1>CSP Demo - External Scripts</h1>
@@ -52,8 +22,8 @@
 
     <div class="demo-section">
         <h2>Current CSP Policy</h2>
-        <pre>Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net</pre>
-        <p>This policy allows scripts from the same origin ('self') and from cdn.jsdelivr.net.</p>
+        <pre>Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'</pre>
+        <p>This policy allows scripts from the same origin ('self') and from cdn.jsdelivr.net. Styles are loaded from external CSS files.</p>
     </div>
 
     <!-- This script will load (allowed domain) -->
@@ -62,26 +32,8 @@
     <!-- This script will be blocked (not in allowed domains) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 
-    <script>
-        // Check if scripts loaded
-        window.onload = function() {
-            if (window.jQuery) {
-                document.getElementById('jquery-status').textContent = 'jQuery Status: Loaded successfully!';
-                document.getElementById('jquery-status').className = 'success';
-            } else {
-                document.getElementById('jquery-status').textContent = 'jQuery Status: Failed to load';
-                document.getElementById('jquery-status').className = 'error';
-            }
-
-            if (window._) {
-                document.getElementById('lodash-status').textContent = 'Lodash Status: Loaded successfully!';
-                document.getElementById('lodash-status').className = 'success';
-            } else {
-                document.getElementById('lodash-status').textContent = 'Lodash Status: Blocked by CSP';
-                document.getElementById('lodash-status').className = 'error';
-            }
-        };
-    </script>
+    <!-- Load our external script -->
+    <script src="/script-status.js"></script>
 
     <a href="/csp-demo" class="button">Back to Main Demo</a>
 </body>
