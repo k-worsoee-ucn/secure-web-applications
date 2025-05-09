@@ -1,6 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const port = 3000;
@@ -81,26 +82,14 @@ app.post('/submit', (req, res) => {
         "object-src 'none'"
     );
     
-    // Send a response that demonstrates the form submission was successful
-    res.send(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Form Submission Result</title>
-            <link rel="stylesheet" href="/styles.css">
-        </head>
-        <body>
-            <div class="demo-section">
-                <h1>Form Submission Successful</h1>
-                <p>The form was submitted successfully, demonstrating that the form-action CSP directive is working correctly.</p>
-                <p>Submitted value: ${req.body.test}</p>
-                <a href="/csp-demo-form" class="button">Back to Form Demo</a>
-            </div>
-        </body>
-        </html>
-    `);
+    // Read the template file
+    const template = fs.readFileSync(path.join(__dirname, 'public', 'submit-response.html'), 'utf8');
+    
+    // Replace the placeholder with the submitted value
+    const response = template.replace('{{submittedValue}}', req.body.test);
+    
+    // Send the response
+    res.send(response);
 });
 
 app.listen(port, () => {
