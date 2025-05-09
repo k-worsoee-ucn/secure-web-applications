@@ -8,10 +8,10 @@ const port = 3000;
 app.use(express.json({ type: ['application/json', 'application/csp-report'] }));
 
 // Aktiv CSP-header
-const cspHeader = "default-src 'self'; script-src 'self'; style-src 'self'";
+const cspHeader = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self'";
 
 // Report-Only CSP-header (bruges til test uden at blokere)
-const cspReportOnly = "default-src 'self'; script-src 'self'; report-uri /csp-report";
+const cspReportOnly = "default-src 'self'; script-src 'self' 'unsafe-inline'; report-uri /csp-report";
 
 app.use((req, res, next) => {
   res.setHeader('Content-Security-Policy', cspHeader);
