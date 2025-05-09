@@ -1,0 +1,23 @@
+{
+  "name": "rbac-exercise",
+  "version": "1.0.0",
+  "description": "Role-Based Access Control Exercise",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongoose": "^7.5.0",
+    "ejs": "^3.1.9",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+} 

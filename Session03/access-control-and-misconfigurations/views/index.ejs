@@ -1,0 +1,13 @@
+<%
+const content = `
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to the RBAC Exercise</h1>
+    <p class="lead">This is a simple exercise to demonstrate Role-Based Access Control in a web application.</p>
+    <hr class="my-4">
+    <p>Get started by registering a new account or logging in.</p>
+    <a class="btn btn-primary btn-lg" href="/register" role="button">Register</a>
+    <a class="btn btn-secondary btn-lg" href="/login" role="button">Login</a>
+</div>
+`;
+%>
+<%- include('layout', { title: 'Home', content }) %> 
