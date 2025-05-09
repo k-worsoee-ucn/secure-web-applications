@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Exercise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .todo-item {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+        .error {
+            color: red;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #ffe6e6;
+            border-radius: 4px;
+        }
+        .success {
+            color: green;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #e6ffe6;
+            border-radius: 4px;
+        }
+        .debug-info {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>CORS Exercise</h1>
+    <div id="status"></div>
+    <div id="debug"></div>
+    
+    <h2>Add New Todo</h2>
+    <form id="todoForm">
+        <input type="text" id="todoText" placeholder="Enter todo text" required>
+        <button type="submit">Add Todo</button>
+    </form>
+
+    <h2>Todos</h2>
+    <div id="todoList"></div>
+
+    <script>
+        // The backend URL - this will cause CORS errors by default
+        const API_URL = 'http://localhost:3000/api';
+        const statusDiv = document.getElementById('status');
+        const debugDiv = document.getElementById('debug');
+        const todoList = document.getElementById('todoList');
+        const todoForm = document.getElementById('todoForm');
+
+        // Function to display status messages
+        function showStatus(message, isError = false) {
+            statusDiv.innerHTML = `<div class="${isError ? 'error' : 'success'}">${message}</div>`;
+        }
+
+        // Function to display debug information
+        function showDebugInfo(error) {
+            debugDiv.innerHTML = `
+                <h3>Debug Information:</h3>
+                <div class="debug-info">
+                    <p><strong>Error Type:</strong> ${error.name}</p>
+                    <p><strong>Message:</strong> ${error.message}</p>
+                    <p><strong>Stack:</strong> ${error.stack}</p>
+                    <p><strong>Current Origin:</strong> ${window.location.origin}</p>
+                    <p><strong>Target API:</strong> ${API_URL}</p>
+                </div>
+            `;
+        }
+
+        // Function to fetch todos
+        async function fetchTodos() {
+            try {
+                const response = await fetch(`${API_URL}/todos`);
+                if (!response.ok) throw new Error('Failed to fetch todos');
+                const todos = await response.json();
+                displayTodos(todos);
+                showStatus('Successfully fetched todos');
+                debugDiv.innerHTML = ''; // Clear debug info on success
+            } catch (error) {
+                showStatus(`Error: ${error.message}`, true);
+                showDebugInfo(error);
+            }
+        }
+
+        // Function to display todos
+        function displayTodos(todos) {
+            todoList.innerHTML = todos.map(todo => `
+                <div class="todo-item">
+                    <input type="checkbox" ${todo.completed ? 'checked' : ''}>
+                    <span>${todo.text}</span>
+                </div>
+            `).join('');
+        }
+
+        // Function to add a new todo
+        async function addTodo(text) {
+            try {
+                const response = await fetch(`${API_URL}/todos`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text })
+                });
+                if (!response.ok) throw new Error('Failed to add todo');
+                const newTodo = await response.json();
+                showStatus('Successfully added new todo');
+                fetchTodos();
+                debugDiv.innerHTML = ''; // Clear debug info on success
+            } catch (error) {
+                showStatus(`Error: ${error.message}`, true);
+                showDebugInfo(error);
+            }
+        }
+
+        // Event listeners
+        todoForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = document.getElementById('todoText').value;
+            await addTodo(text);
+            todoForm.reset();
+        });
+
+        // Initial fetch
+        fetchTodos();
+    </script>
+</body>
+</html> 
