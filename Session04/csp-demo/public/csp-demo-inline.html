@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSP Demo - Inline Scripts</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .demo-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSP Demo - Inline Scripts</h1>
+    
+    <div class="demo-section">
+        <h2>Inline Script Demonstration</h2>
+        <p>This page has a CSP that blocks inline scripts. Try clicking the button below:</p>
+        
+        <button onclick="alert('This inline script should be blocked by CSP!')" class="button">
+            Click Me (Inline Script)
+        </button>
+
+        <p class="error">Expected Result: The click handler won't work because the inline onclick attribute is blocked by CSP.</p>
+    </div>
+
+    <div class="demo-section">
+        <h2>Current CSP Policy</h2>
+        <pre>Content-Security-Policy: default-src 'self'; script-src 'self'</pre>
+        <p>This policy only allows scripts from the same origin ('self') and blocks all inline scripts.</p>
+    </div>
+
+    <a href="/csp-demo" class="button">Back to Main Demo</a>
+</body>
+</html> 

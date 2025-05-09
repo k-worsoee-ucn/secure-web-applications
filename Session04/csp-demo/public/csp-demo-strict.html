@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSP Demo - Strict Policy</title>
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self'; 
+                   script-src 'self' https://cdn.jsdelivr.net;
+                   style-src 'self' 'unsafe-inline';
+                   img-src 'self' https://*.example.com;
+                   font-src 'self';
+                   connect-src 'self';
+                   frame-ancestors 'none';
+                   form-action 'self';
+                   base-uri 'self';
+                   object-src 'none'">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .demo-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSP Demo - Strict Policy</h1>
+    
+    <div class="demo-section">
+        <h2>Strict CSP Policy Demonstration</h2>
+        <p>This page implements a strict CSP policy that demonstrates multiple security features:</p>
+        
+        <ul>
+            <li>Only allows scripts from same origin and cdn.jsdelivr.net</li>
+            <li>Allows inline styles (needed for this demo)</li>
+            <li>Restricts images to same origin and example.com</li>
+            <li>Blocks all object/embed/applet content</li>
+            <li>Prevents site from being framed by other sites</li>
+            <li>Restricts form submissions to same origin</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2>Current CSP Policy</h2>
+        <pre>Content-Security-Policy: 
+    default-src 'self';
+    script-src 'self' https://cdn.jsdelivr.net;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' https://*.example.com;
+    font-src 'self';
+    connect-src 'self';
+    frame-ancestors 'none';
+    form-action 'self';
+    base-uri 'self';
+    object-src 'none'</pre>
+    </div>
+
+    <div class="demo-section">
+        <h2>Security Features in Action</h2>
+        
+        <h3>1. Script Loading</h3>
+        <div id="script-status">jQuery Status: Loading...</div>
+        
+        <h3>2. Image Loading</h3>
+        <div>
+            <p>This image should load (same origin):</p>
+            <img src="/test-image.jpg" alt="Test Image" style="max-width: 200px;">
+        </div>
+        
+        <h3>3. Form Submission</h3>
+        <form action="/submit" method="POST">
+            <input type="text" name="test" placeholder="Test input">
+            <button type="submit" class="button">Submit</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script>
+        window.onload = function() {
+            if (window.jQuery) {
+                document.getElementById('script-status').textContent = 'jQuery Status: Loaded successfully!';
+                document.getElementById('script-status').className = 'success';
+            } else {
+                document.getElementById('script-status').textContent = 'jQuery Status: Failed to load';
+                document.getElementById('script-status').className = 'error';
+            }
+        };
+    </script>
+
+    <a href="/csp-demo" class="button">Back to Main Demo</a>
+</body>
+</html> 

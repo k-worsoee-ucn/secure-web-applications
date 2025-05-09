@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSP Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .demo-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Content Security Policy (CSP) Demonstration</h1>
+    
+    <div class="demo-section">
+        <h2>Available Demonstrations</h2>
+        <p>Click on any of the following links to see different CSP scenarios:</p>
+        
+        <a href="/csp-demo-inline" class="button">Inline Script Demo</a>
+        <a href="/csp-demo-external" class="button">External Script Demo</a>
+        <a href="/csp-demo-strict" class="button">Strict CSP Demo</a>
+    </div>
+
+    <div class="demo-section">
+        <h2>What is Content Security Policy?</h2>
+        <p>Content Security Policy (CSP) is a security feature that helps prevent various types of attacks, including Cross-Site Scripting (XSS) and data injection attacks. It works by restricting the sources from which content can be loaded and executed.</p>
+        
+        <h3>Key CSP Directives:</h3>
+        <ul>
+            <li><strong>default-src</strong>: Default fallback for other fetch directives</li>
+            <li><strong>script-src</strong>: Controls which scripts can be executed</li>
+            <li><strong>style-src</strong>: Controls which styles can be applied</li>
+            <li><strong>img-src</strong>: Controls which images can be loaded</li>
+            <li><strong>connect-src</strong>: Controls which URLs can be loaded using script interfaces</li>
+        </ul>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSP Demo - External Scripts</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .demo-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSP Demo - External Scripts</h1>
+    
+    <div class="demo-section">
+        <h2>External Script Demonstration</h2>
+        <p>This page has a CSP that allows scripts from cdn.jsdelivr.net. The following scripts will be loaded:</p>
+        
+        <div id="jquery-status">jQuery Status: Loading...</div>
+        <div id="lodash-status">Lodash Status: Loading...</div>
+
+        <p class="success">Expected Result: jQuery should load successfully (allowed domain), but Lodash should be blocked (not in allowed domains).</p>
+    </div>
+
+    <div class="demo-section">
+        <h2>Current CSP Policy</h2>
+        <pre>Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net</pre>
+        <p>This policy allows scripts from the same origin ('self') and from cdn.jsdelivr.net.</p>
+    </div>
+
+    <!-- This script will load (allowed domain) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    
+    <!-- This script will be blocked (not in allowed domains) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+
+    <script>
+        // Check if scripts loaded
+        window.onload = function() {
+            if (window.jQuery) {
+                document.getElementById('jquery-status').textContent = 'jQuery Status: Loaded successfully!';
+                document.getElementById('jquery-status').className = 'success';
+            } else {
+                document.getElementById('jquery-status').textContent = 'jQuery Status: Failed to load';
+                document.getElementById('jquery-status').className = 'error';
+            }
+
+            if (window._) {
+                document.getElementById('lodash-status').textContent = 'Lodash Status: Loaded successfully!';
+                document.getElementById('lodash-status').className = 'success';
+            } else {
+                document.getElementById('lodash-status').textContent = 'Lodash Status: Blocked by CSP';
+                document.getElementById('lodash-status').className = 'error';
+            }
+        };
+    </script>
+
+    <a href="/csp-demo" class="button">Back to Main Demo</a>
+</body>
+</html> 
