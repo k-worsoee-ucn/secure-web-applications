@@ -11,10 +11,28 @@ const app = express();
 
 // TODO: Configure MongoDB connection
 // Hint: Use mongoose.connect() to connect to your MongoDB database
+mongoose.connect('mongodb://localhost:27017/access-control', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => {
+    console.log('MongoDB connected');
+})
+.catch(err => {
+    console.error('MongoDB connection error:', err);
+});
 
 // TODO: Create User Schema
 // Hint: Define a schema with username, password, and role fields
 // The role should be one of: 'admin', 'user', 'guest'
+const userSchema = new mongoose.Schema({
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role: { type: String, enum: ['admin', 'user', 'guest'], default: 'guest' }
+});
+
+// Create the User model
+const User = mongoose.model('User', userSchema);
 
 // Middleware
 app.set('view engine', 'ejs');
@@ -32,8 +50,10 @@ app.use(flash());
 // TODO: Implement authentication middleware
 // Hint: Create a middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
-    // TODO: Check if user is logged in
-    // If not, redirect to login page
+    if (!req.isAuthenticated()) {
+        req.flash('error', 'You need to log in first');
+        return res.redirect('/login');
+    }
     next();
 };
 
@@ -43,6 +63,10 @@ const checkRole = (role) => {
     return (req, res, next) => {
         // TODO: Check if user has the required role
         // If not, redirect to dashboard with error message
+        if (!req.isAuthenticated() || req.user.role !== role) {
+            req.flash('error', 'You do not have permission to access this page');
+            return res.redirect('/dashboard');
+        }
         next();
     };
 };
@@ -85,6 +109,7 @@ app.get('/', (req, res) => {
 // TODO: Implement registration route
 app.get('/register', (req, res) => {
     res.render('register', { error: req.flash('error') });
+    
 });
 
 app.post('/register', async (req, res) => {
@@ -116,6 +141,7 @@ app.post('/register', async (req, res) => {
 // TODO: Implement login route
 app.get('/login', (req, res) => {
     res.render('login', { error: req.flash('error') });
+
 });
 
 app.post('/login', passport.authenticate('local', {
@@ -125,8 +151,12 @@ app.post('/login', passport.authenticate('local', {
 }));
 
 // TODO: Implement logout route
-app.get('/logout', (req, res) => {
-    req.logout(() => {
+app.get('/logout', (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        req.flash('success', 'You have been logged out.');
         res.redirect('/');
     });
 });
@@ -152,4 +182,4 @@ app.get('/guest', isAuthenticated, checkRole('guest'), (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-}); 
+});
